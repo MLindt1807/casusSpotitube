@@ -1,4 +1,4 @@
-package nl.han.oose.lindt.maarten.services.exceptions;
-
-public class VerbindingNotFoundException extends RuntimeException {
-}
+//package nl.han.oose.lindt.maarten.services.exceptions;
+//
+//public class VerbindingNotFoundException extends RuntimeException {
+//}
