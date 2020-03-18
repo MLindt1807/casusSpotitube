@@ -2,6 +2,8 @@ package nl.han.oose.lindt.maarten.services.dto;
 
 public class UserDTO {
 
+
+
     private String user;
     private String password;
 
@@ -13,7 +15,7 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String getName() {
+    public String getUser() {
         return user;
     }
 

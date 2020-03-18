@@ -4,22 +4,23 @@ import javax.xml.registry.infomodel.User;
 
 public class UserVerbindingDTO {
 
-
-    public String name;
     public String token;
+    public String user;
+
 
     public UserVerbindingDTO(){}
 
-    public UserVerbindingDTO(String name, String token){
-        this.name = name;
+    public UserVerbindingDTO(String user, String token){
         this.token = token;
+        this.user = user;
+
     }
 
     public String getToken() {
         return token;
     }
-    public String getName() {
-        return name;
+    public String getUser() {
+        return user;
     }
 
 
