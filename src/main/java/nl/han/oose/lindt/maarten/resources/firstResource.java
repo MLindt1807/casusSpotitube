@@ -3,6 +3,7 @@ package nl.han.oose.lindt.maarten.resources;
 //import nl.han.oose.lindt.maarten.services.UserService;
 import nl.han.oose.lindt.maarten.services.TrackService;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
+import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import nl.han.oose.lindt.maarten.services.dto.UserDTO;
 import nl.han.oose.lindt.maarten.services.dto.UserVerbindingDTO;
 import nl.han.oose.lindt.maarten.services.PlaylistService;
@@ -13,6 +14,7 @@ import javax.inject.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/spotitube")
 public class firstResource {
@@ -90,14 +92,30 @@ public class firstResource {
     }
 
 
-
+//TODO geen zin om te returnen.
     @Path("/tracks")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editPlaylist(@QueryParam("token") String token, @QueryParam("forPlaylist") int idOfPlaylist){
-
-        return Response.status(200).entity(trackService.getAll(idOfPlaylist)).build();
+    public Response GetAllExceptFromPlaylist(@QueryParam("token") String token, @QueryParam("forPlaylist") int idOfPlaylist){
+        List<Integer> tracksInPlaylist = playlistService.getAllIDOfPlaylist(idOfPlaylist);
+        return Response.status(200).entity(trackService.getAllExcept(tracksInPlaylist)).build();
     }
 
+    @Path("/playlists/{id}/tracks")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response GetAllOfPlaylist(@QueryParam("token") String token, @PathParam("id") int idOfPlaylist){
+        List<TrackDTO> tracksInPlaylist = playlistService.getAllOfPlaylist(idOfPlaylist);
+        return Response.status(200).entity(tracksInPlaylist).build();
+    }
+
+//    @Path("/playlists/{id}/tracks")
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response AddTrackToPlaylist(@QueryParam("token") String token, @PathParam("id") int idOfPlaylist, List<TrackDTO> tracks){
+//
+//        return Response.status(200).entity(tracksInPlaylist).build();
+//    }
 
 }
