@@ -102,4 +102,18 @@ public class TrackDTO {
     public void setOfflineAvailable(boolean offlineAvailable) {
         this.offlineAvailable = offlineAvailable;
     }
+
+    public boolean checkTrack(TrackDTO incomingTrack) {
+        if(incomingTrack.id.equals(this.getId())){
+            
+            if(incomingTrack.equals(this)){
+
+                return true;
+            } else{
+               return false;
+            }
+        }else{
+            return false;
+        }
+    }
 }

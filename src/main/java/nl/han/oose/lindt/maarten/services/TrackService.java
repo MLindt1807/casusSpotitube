@@ -61,4 +61,19 @@ public class TrackService {
 
         return returnTrack;
     }
+
+    public boolean checkTrack(TrackDTO incomingTrack) {
+        boolean checkOKE = false;
+        for(TrackDTO checkingTrack: tracks){
+            boolean isGelijk = checkingTrack.checkTrack(incomingTrack);
+            if(isGelijk ){
+                if(!checkOKE) {
+                    checkOKE = true;
+                }else{
+                    throw new MultipleItemsForIDException();
+                }
+            }
+        }
+        return checkOKE;
+    }
 }

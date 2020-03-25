@@ -14,26 +14,18 @@ public class PlaylistService {
 
     List<PlaylistDTO> playlists = new ArrayList<PlaylistDTO>();
 
-    public PlaylistService(){
+    public PlaylistService() {
 
         playlists.add(new PlaylistDTO(1, "Death metal", true, new ArrayList<TrackDTO>()));
-        playlists.add(new PlaylistDTO(2, "Pop", false , new ArrayList<TrackDTO>()));
+        playlists.add(new PlaylistDTO(2, "Pop", false, new ArrayList<TrackDTO>()));
     }
 
-    public PlaylistReturnDTO getAll(){
+    public PlaylistReturnDTO getAll() {
         return new PlaylistReturnDTO(playlists);
     }
 
     public void deletePlaylist(int id) {
-        PlaylistDTO playlistToDelete = null;
-        for(PlaylistDTO playlist: playlists){
-            if(playlist.getId() == id){
-                playlistToDelete = playlist;
-            }
-        }
-        if(playlistToDelete == null){
-            throw new NotFoundException();
-        }
+        PlaylistDTO playlistToDelete = getPlaylistForID(id);
         playlists.remove(playlistToDelete);
     }
 
@@ -44,40 +36,46 @@ public class PlaylistService {
         playlists.add(playlist);
     }
 
-    private int getID(){
-        return playlists.size()+1;
+    private int getID() {
+        return playlists.size() + 1;
     }
 
     public void replacePlaylist(int id, PlaylistDTO replacementPlaylist) {
-        PlaylistDTO playlistToReplace = null;
-        for(PlaylistDTO playlist: playlists){
-            if(playlist.getId() == id){
-                playlistToReplace = playlist;
+
+        PlaylistDTO playlistToReplace = getPlaylistForID(id);
+
+        playlists.set(playlists.indexOf(playlistToReplace), replacementPlaylist);
+    }
+
+    public List<TrackDTO> getAllTracksOfPlaylist(int idOfPlaylist) {
+        PlaylistDTO playlist = getPlaylistForID(idOfPlaylist);
+        return playlist.getTracks();
+    }
+
+
+    public PlaylistDTO getPlaylistForID(int id) {
+        PlaylistDTO playlistToReturn = null;
+
+
+        for(PlaylistDTO playlist:playlists) {
+             if (playlist.getId() == id) {
+                 if(playlistToReturn == null) {
+                     playlistToReturn = playlist;
+                 }else{
+                     throw new MultipleItemsForIDException();
+                 }
             }
         }
-        if(playlistToReplace == null){
+        if(playlistToReturn == null){
             throw new NotFoundException();
         }
-        playlists.set(playlists.indexOf(playlistToReplace),replacementPlaylist);
+
+        return playlistToReturn;
     }
 
-    public List<TrackDTO> getAllOfPlaylist(int idOfPlaylist) {
-        List<PlaylistDTO> gekozenPlaylist = playlists.stream().filter(playlist -> playlist.getId() == idOfPlaylist).collect(Collectors.toList());
-        if(gekozenPlaylist.size() < 1){
-            throw new NotFoundException();
-        }
-        if(gekozenPlaylist.size() > 1){
-            throw new MultipleItemsForIDException();
-        }
-        return gekozenPlaylist.get(0).getTracks();
-    }
 
-    public List<Integer> getAllIDOfPlaylist(int idOfPlaylist) {
-        List<TrackDTO> tracks = getAllOfPlaylist(idOfPlaylist);
-        List<Integer> trackIDs = new ArrayList<Integer>();
-        for(TrackDTO track: tracks){
-            trackIDs.add(track.getId());
-        }
-        return trackIDs;
+    public void addTrack(int idOfPlaylist, TrackDTO track) {
+       PlaylistDTO  playlist = getPlaylistForID(idOfPlaylist);
+       playlist.addTrack(track);
     }
 }
