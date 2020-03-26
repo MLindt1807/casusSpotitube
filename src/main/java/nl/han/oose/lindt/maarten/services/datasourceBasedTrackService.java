@@ -31,9 +31,13 @@ public class datasourceBasedTrackService implements TrackService {
         return new TracksDTO(tracks);
     }
 
+    @Override
+    public TrackDTO getTrack(int id) {
+        return null;
+    }
 
     @Override
     public void checkTrack(TrackDTO incomingTrack, int idOfPlaylist) {
-       trackMapper.checkTrack(incomingTrack, idOfPlaylist);
+       trackMapper.CheckTrack(incomingTrack, idOfPlaylist);
     }
 }

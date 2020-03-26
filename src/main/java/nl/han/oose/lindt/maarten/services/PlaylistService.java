@@ -16,6 +16,8 @@ public interface PlaylistService {
 
     TracksDTO getAllTracksOfPlaylist(int idOfPlaylist);
 
+
+
     void addTrack(int idOfPlaylist, TrackDTO track);
 
     void deleteTrackFromPlaylist(int playlistID, int trackID);
