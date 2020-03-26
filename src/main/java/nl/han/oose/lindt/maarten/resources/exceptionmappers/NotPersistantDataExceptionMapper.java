@@ -1,4 +1,4 @@
-package nl.han.oose.lindt.maarten.resources.exceptionMappers;
+package nl.han.oose.lindt.maarten.resources.exceptionmappers;
 
 import nl.han.oose.lindt.maarten.services.exceptions.NotConsistantDataException;
 

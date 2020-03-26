@@ -1,8 +1,8 @@
 package nl.han.oose.lindt.maarten.datasource.Mappers;
 
 
-import nl.han.oose.lindt.maarten.datasource.DAO.FailedResultsetReadingException;
-import nl.han.oose.lindt.maarten.datasource.DAO.TrackDAO;
+import nl.han.oose.lindt.maarten.datasource.dao.FailedResultsetReadingException;
+import nl.han.oose.lindt.maarten.datasource.dao.TrackDAO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import nl.han.oose.lindt.maarten.services.exceptions.NotConsistantDataException;
 
@@ -40,7 +40,7 @@ public class TrackMapper {
     }
 
     public void CheckTrack(TrackDTO incomingTrack, int playlistID) {
-        ResultSet resultSet = TrackDAO.getTrack(incomingTrack.getId());
+        ResultSet resultSet = trackDAO.getTrack(incomingTrack.getId());
         List<TrackDTO> tracks = tracksResultsetToTrackDTOArrayList(resultSet);
 
         if(!(tracks.size() == 1 && playlistID == tracks.get(0).getId())){

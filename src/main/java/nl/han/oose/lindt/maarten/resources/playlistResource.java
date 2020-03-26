@@ -1,35 +1,24 @@
 package nl.han.oose.lindt.maarten.resources;
 
-//import nl.han.oose.lindt.maarten.services.UserService;
-import nl.han.oose.lindt.maarten.services.TrackService;
-import nl.han.oose.lindt.maarten.services.dto.*;
 import nl.han.oose.lindt.maarten.services.PlaylistService;
+import nl.han.oose.lindt.maarten.services.TrackService;
+import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
+import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
+import nl.han.oose.lindt.maarten.services.dto.TracksDTO;
 
-
-import javax.inject.*;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/spotitube")
-public class firstResource {
-    //private UserService userService;
-
-//    @Inject
-//    public void setItemService(UserService userService) {
-//        this.userService = userService;
-//    }
-
-
-
+@Path("/playlists/")
+public class playlistResource {
     private PlaylistService playlistService;
 
     @Inject
     public void setPlaylistService(PlaylistService playlistService) {
         this.playlistService = playlistService;
     }
-
-
 
     private TrackService trackService;
 
@@ -38,23 +27,7 @@ public class firstResource {
         this.trackService = trackService;
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response test(){
-        var object = new UserDTO("user1", "userpw");
-        return Response.ok().entity(object).build();
-    }
 
-    @Path("/login")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response login(UserDTO user) {
-        var verbinding = new UserVerbindingDTO( user.getUser(), "1234-1234-1234");
-        return Response.status(200).entity(verbinding).build();
-    }
-
-    @Path("/playlists/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPlaylists(@QueryParam("token") String token){
@@ -62,7 +35,7 @@ public class firstResource {
         return Response.status(200).entity(playlistService.getAll()).build();
     }
 
-    @Path("/playlists/{id}")
+    @Path("/{id}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response deletePlaylist(@QueryParam("token") String token, @PathParam("id") int id){
@@ -70,7 +43,7 @@ public class firstResource {
         return Response.status(200).entity(playlistService.getAll()).build();
     }
 
-    @Path("/playlists/")
+    @Path("")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPlaylist(@QueryParam("token") String token, PlaylistDTO playlist){
@@ -79,7 +52,7 @@ public class firstResource {
     }
 
 
-    @Path("/playlists/{id}")
+    @Path("/{id}")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     public Response editPlaylist(@QueryParam("token") String token, @PathParam("id") int id, PlaylistDTO playlist){
@@ -87,23 +60,7 @@ public class firstResource {
         return Response.status(200).entity(playlistService.getAll()).build();
     }
 
-
-
-
-    @Path("/tracks")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response GetAllExceptFromPlaylist(@QueryParam("token") String token, @QueryParam("forPlaylist") Integer playlistID){
-
-        if(playlistID == null){
-            return Response.status(200).entity(trackService.getAllTracks()).build();
-        }else{
-            return Response.status(200).entity(trackService.getAllTracksNotInCurrentPlaylist(playlistID)).build();
-        }
-
-    }
-
-    @Path("/playlists/{id}/tracks")
+    @Path("/{id}/tracks")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response GetAllOfPlaylist(@QueryParam("token") String token, @PathParam("id") int idOfPlaylist){
@@ -111,7 +68,7 @@ public class firstResource {
         return Response.status(200).entity(tracksInPlaylist).build();
     }
 
-    @Path("/playlists/{id}/tracks")
+    @Path("/{id}/tracks")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -125,7 +82,7 @@ public class firstResource {
         return Response.status(201).entity(playlistService.getAllTracksOfPlaylist(idOfPlaylist)).build();
     }
 
-    @Path("/playlists/{playlistID}/tracks/{trackID}")
+    @Path("/{playlistID}/tracks/{trackID}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteTrackFromPlaylist(@QueryParam("token") String token,

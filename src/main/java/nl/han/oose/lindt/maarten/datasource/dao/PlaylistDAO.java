@@ -1,4 +1,4 @@
-package nl.han.oose.lindt.maarten.datasource.DAO;
+package nl.han.oose.lindt.maarten.datasource.dao;
 
 import nl.han.oose.lindt.maarten.datasource.*;
 

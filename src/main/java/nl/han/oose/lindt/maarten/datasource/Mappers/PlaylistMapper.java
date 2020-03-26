@@ -1,7 +1,7 @@
 package nl.han.oose.lindt.maarten.datasource.Mappers;
 
-import nl.han.oose.lindt.maarten.datasource.DAO.FailedResultsetReadingException;
-import nl.han.oose.lindt.maarten.datasource.DAO.PlaylistDAO;
+import nl.han.oose.lindt.maarten.datasource.dao.FailedResultsetReadingException;
+import nl.han.oose.lindt.maarten.datasource.dao.PlaylistDAO;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import nl.han.oose.lindt.maarten.services.exceptions.MultipleItemsForIDException;

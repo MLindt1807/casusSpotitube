@@ -1,4 +1,4 @@
-package nl.han.oose.lindt.maarten.resources.exceptionMappers;
+package nl.han.oose.lindt.maarten.resources.exceptionmappers;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;

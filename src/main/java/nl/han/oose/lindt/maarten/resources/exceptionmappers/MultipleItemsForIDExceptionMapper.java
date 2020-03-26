@@ -1,8 +1,7 @@
-package nl.han.oose.lindt.maarten.resources.exceptionMappers;
+package nl.han.oose.lindt.maarten.resources.exceptionmappers;
 
 import nl.han.oose.lindt.maarten.services.exceptions.MultipleItemsForIDException;
 
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
