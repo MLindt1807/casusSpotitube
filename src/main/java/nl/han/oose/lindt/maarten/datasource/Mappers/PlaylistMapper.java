@@ -25,41 +25,13 @@ public class PlaylistMapper {
         this.playlistDAO = playlistDAO;
     }
 
-    //TODO geeft alleen playlists met tracks
+
     public List<PlaylistDTO> getAll() {
-       ResultSet playlists = playlistDAO.getAll();
+       var playlists = playlistDAO.getAll();
 
-       List<PlaylistDTO> playlistsToReturn = new ArrayList<>();
-       try {
-            while(playlists.next()) {
-                playlistsToReturn.add(new PlaylistDTO(
-                        playlists.getInt("id"),
-                        playlists.getString("name"),
-                        playlists.getBoolean("owner"),
-                        new ArrayList<>()));
 
-                ResultSet tracks = playlistDAO.getAllTracksForPlaylist(playlists.getInt("id"));
-                PlaylistDTO playlist = getPlaylistForID(playlists.getInt("id"),playlistsToReturn);
-                while(tracks.next()){
 
-                    playlist.addTrack(new TrackDTO(
-                            tracks.getInt("id"),
-                            tracks.getString("title")      ,
-                            tracks.getString("performer"),
-                            tracks.getInt("duration"),
-                            tracks.getString("album"),
-                            tracks.getInt("playcount"),
-                            tracks.getString("publicationDate"),
-                            tracks.getString( "description"),
-                            tracks.getBoolean("offlineAvailable")));
-                }
-
-            }
-       } catch (SQLException e) {
-               throw new FailedResultsetReadingException();
-       }
-
-        return playlistsToReturn;
+        return playlists;
     }
 
     public void deletePlaylist(int id){
@@ -75,29 +47,29 @@ public class PlaylistMapper {
             playlistDAO.replacePlaylist(replacementPlaylist.getId(), replacementPlaylist.getName(), replacementPlaylist.isOwner());
 
     }
-    public List<TrackDTO> getAllTracksForPlaylist(int id) {
-        ResultSet result = playlistDAO.getAllTracksForPlaylist(id);
-        List<TrackDTO> tracks = new ArrayList<>();
-        try {
-            while(result.next()) {
-                tracks.add(new TrackDTO(
-                        result.getInt("id"),
-                        result.getString("title"),
-                        result.getString("performer"),
-                        result.getInt("duration"),
-                        result.getString("album"),
-                        result.getInt("playcount"),
-                        result.getString("publicationDate"),
-                        result.getString("description"),
-                        result.getBoolean("offlineAvailable")));
-            }
-        } catch (SQLException e) {
-
-            throw new FailedResultsetReadingException();
-        }
-
-        return tracks;
-    }
+//    public List<TrackDTO> getAllTracksForPlaylist(int id) {
+//        ResultSet result = playlistDAO.getAllTracksForPlaylist(id);
+//        List<TrackDTO> tracks = new ArrayList<>();
+//        try {
+//            while(result.next()) {
+//                tracks.add(new TrackDTO(
+//                        result.getInt("id"),
+//                        result.getString("title"),
+//                        result.getString("performer"),
+//                        result.getInt("duration"),
+//                        result.getString("album"),
+//                        result.getInt("playcount"),
+//                        result.getString("publicationDate"),
+//                        result.getString("description"),
+//                        result.getBoolean("offlineAvailable")));
+//            }
+//        } catch (SQLException e) {
+//
+//            throw new FailedResultsetReadingException();
+//        }
+//
+//        return tracks;
+//    }
 
     private PlaylistDTO getPlaylistForID(int id,List<PlaylistDTO> playlists) {
         PlaylistDTO playlistToReturn = null;

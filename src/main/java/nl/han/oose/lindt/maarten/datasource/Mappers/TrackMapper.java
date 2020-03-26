@@ -1,19 +1,23 @@
 package nl.han.oose.lindt.maarten.datasource.Mappers;
 
 
-import nl.han.oose.lindt.maarten.datasource.dao.FailedResultsetReadingException;
+
 import nl.han.oose.lindt.maarten.datasource.dao.TrackDAO;
+import nl.han.oose.lindt.maarten.datasource.vertaler.TrackVertaler;
+import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
+import nl.han.oose.lindt.maarten.services.dto.TracksDTO;
 import nl.han.oose.lindt.maarten.services.exceptions.NotConsistantDataException;
 
 import javax.inject.Inject;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrackMapper {
 
+
+
+    private TrackVertaler trackVertaler;
     TrackDAO trackDAO;
 
     public TrackMapper(){
@@ -25,52 +29,41 @@ public class TrackMapper {
         this.trackDAO = trackDAO;
     }
 
+    @Inject
+    public void setTrackVertaler(TrackVertaler trackVertaler) {
+        this.trackVertaler = trackVertaler;
+    }
+
     public List<TrackDTO> getAll() {
         ResultSet tracks = trackDAO.getAll();
-
-       return tracksResultsetToTrackDTOArrayList(tracks);
+        List<TrackDTO> trackDTOS = trackVertaler.tracksResultsetToTrackDTOArrayList(tracks);
+       return trackDTOS;
 
 
     }
 
     public List<TrackDTO> getAllTracksNotInCurrentPlaylist(int playlistID) {
         ResultSet tracks = trackDAO.getAllTracksNotInCurrentPlaylist(playlistID);
-
-        return tracksResultsetToTrackDTOArrayList(tracks);
+        var tracksDTOs = trackVertaler.tracksResultsetToTrackDTOArrayList(tracks);
+        return tracksDTOs;
     }
 
-    public void CheckTrack(TrackDTO incomingTrack, int playlistID) {
+    public void checkTrack(TrackDTO incomingTrack, int playlistID) {
         ResultSet resultSet = trackDAO.getTrack(incomingTrack.getId());
-        List<TrackDTO> tracks = tracksResultsetToTrackDTOArrayList(resultSet);
+        List<TrackDTO> tracks = trackVertaler.tracksResultsetToTrackDTOArrayList(resultSet);
 
-        if(!(tracks.size() == 1 && playlistID == tracks.get(0).getId())){
+        if(!(tracks.size() == 1)){
             throw new NotConsistantDataException();
         }
     }
 
-    private List<TrackDTO> tracksResultsetToTrackDTOArrayList(ResultSet resultSet){
-        List<TrackDTO> tracksToReturn = new ArrayList<>();
-        try {
-            while(resultSet.next()) {
-                tracksToReturn.add(new TrackDTO(
-                        resultSet.getInt("id"),
-                        resultSet.getString("title"),
-                        resultSet.getString("performer"),
-                        resultSet.getInt("duration"),
-                        resultSet.getString("album"),
-                        resultSet.getInt("playcount"),
-                        resultSet.getString("publicationDate"),
-                        resultSet.getString("description"),
-                        resultSet.getBoolean("offlineAvailable")));
 
-            }
-        } catch (SQLException e) {
-            throw new FailedResultsetReadingException();
-        }
-        return tracksToReturn;
+    public List<PlaylistDTO> getTracksForPlaylists(List<PlaylistDTO> playlists) {
+
+       return trackDAO.getTracksForPlaylists(playlists);
     }
 
-
-
-
+    public List<TrackDTO> getAllTracksForPlaylist(int idOfPlaylist) {
+        return trackDAO.getAllTracksForPlaylists(idOfPlaylist);
+    }
 }

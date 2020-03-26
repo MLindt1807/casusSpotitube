@@ -10,7 +10,5 @@ public interface TrackService {
 
     TracksDTO getAllTracksNotInCurrentPlaylist(int id);
 
-    TrackDTO getTrack(int id);
-
     void checkTrack(TrackDTO incomingTrack, int idOfPlaylist);
 }

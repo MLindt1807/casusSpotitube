@@ -32,12 +32,7 @@ public class datasourceBasedTrackService implements TrackService {
     }
 
     @Override
-    public TrackDTO getTrack(int id) {
-        return null;
-    }
-
-    @Override
     public void checkTrack(TrackDTO incomingTrack, int idOfPlaylist) {
-       trackMapper.CheckTrack(incomingTrack, idOfPlaylist);
+       trackMapper.checkTrack(incomingTrack, idOfPlaylist);
     }
 }

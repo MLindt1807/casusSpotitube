@@ -20,7 +20,6 @@ public class DatabaseConnection {
 
     public Connection getConnection() {
         try {
-
             return DriverManager.getConnection(databaseProperties.getConnectionString());
         } catch (SQLException e ) {
             System.out.println(e);

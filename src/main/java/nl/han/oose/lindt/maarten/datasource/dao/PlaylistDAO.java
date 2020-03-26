@@ -1,12 +1,15 @@
 package nl.han.oose.lindt.maarten.datasource.dao;
 
 import nl.han.oose.lindt.maarten.datasource.*;
+import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 
 import javax.inject.Inject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlaylistDAO {
     private DatabaseConnection databaseConnection;
@@ -26,19 +29,38 @@ public class PlaylistDAO {
        this.connection = databaseConnection.getConnection();
     }
 
-    public ResultSet getAll()  {
+    public List<PlaylistDTO> getAll()  {
 
-
+        List<PlaylistDTO> playlistsToReturn = new ArrayList<>();
+        ResultSet playlists = null;
         PreparedStatement preparedStatement = null;
+        //opvragen
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM playlists");
-            return preparedStatement.executeQuery();
+            playlists = preparedStatement.executeQuery();
 
         } catch (SQLException e) {
             throw new FailedQueryException();
         }
 
+        //uitlezen
+        try {
+            while(playlists.next()) {
+                playlistsToReturn.add(new PlaylistDTO(
+                        playlists.getInt("id"),
+                        playlists.getString("name"),
+                        playlists.getBoolean("owner"),
+                        new ArrayList<>()));
+            }
+       } catch (SQLException e) {
+               throw new FailedResultsetReadingException();
+       }
+
+        return playlistsToReturn;
     }
+
+
+
 
     public ResultSet getAllTracksForPlaylist(int id) {
 

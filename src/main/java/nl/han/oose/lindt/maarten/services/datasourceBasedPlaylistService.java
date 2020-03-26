@@ -1,6 +1,7 @@
 package nl.han.oose.lindt.maarten.services;
 
 import nl.han.oose.lindt.maarten.datasource.Mappers.PlaylistMapper;
+import nl.han.oose.lindt.maarten.datasource.Mappers.TrackMapper;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistsDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
@@ -16,6 +17,10 @@ public class datasourceBasedPlaylistService implements PlaylistService {
 
     PlaylistMapper playlistMapper;
 
+
+
+    TrackMapper trackMapper;
+
     public datasourceBasedPlaylistService(){
 
     }
@@ -25,9 +30,16 @@ public class datasourceBasedPlaylistService implements PlaylistService {
         this.playlistMapper = playlistMapper;
     }
 
+    @Inject
+    public void setTrackMapper(TrackMapper trackMapper) {
+        this.trackMapper = trackMapper;
+    }
+
     @Override
     public PlaylistsDTO getAll() {
-        PlaylistsDTO returnVar = new PlaylistsDTO( playlistMapper.getAll());
+        List<PlaylistDTO> playlists = playlistMapper.getAll();
+        List<PlaylistDTO> playlistsWithTracks = trackMapper.getTracksForPlaylists(playlists);
+        PlaylistsDTO returnVar = new PlaylistsDTO( playlistsWithTracks);
         return returnVar;
     }
 
@@ -52,7 +64,7 @@ public class datasourceBasedPlaylistService implements PlaylistService {
 
     @Override
     public TracksDTO getAllTracksOfPlaylist(int idOfPlaylist) {
-        List<TrackDTO> tracks = playlistMapper.getAllTracksForPlaylist(idOfPlaylist);
+        List<TrackDTO> tracks = trackMapper.getAllTracksForPlaylist(idOfPlaylist);
         return new TracksDTO(tracks);
     }
 

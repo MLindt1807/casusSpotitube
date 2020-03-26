@@ -45,10 +45,11 @@ public class playlistResource {
 
     @Path("")
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPlaylist(@QueryParam("token") String token, PlaylistDTO playlist){
         playlistService.addPlaylist(playlist);
-        return Response.status(200).entity(playlistService.getAll()).build();
+        return Response.status(201).entity(playlistService.getAll()).build();
     }
 
 
@@ -63,7 +64,7 @@ public class playlistResource {
     @Path("/{id}/tracks")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response GetAllOfPlaylist(@QueryParam("token") String token, @PathParam("id") int idOfPlaylist){
+    public Response getAllOfPlaylist(@QueryParam("token") String token, @PathParam("id") int idOfPlaylist){
         TracksDTO tracksInPlaylist = playlistService.getAllTracksOfPlaylist(idOfPlaylist);
         return Response.status(200).entity(tracksInPlaylist).build();
     }
