@@ -39,7 +39,7 @@ public class TrackMapper {
         return tracksResultsetToTrackDTOArrayList(tracks);
     }
 
-    public void CheckTrack(TrackDTO incomingTrack, int playlistID) {
+    public void checkTrack(TrackDTO incomingTrack, int playlistID) {
         ResultSet resultSet = trackDAO.getTrack(incomingTrack.getId());
         List<TrackDTO> tracks = tracksResultsetToTrackDTOArrayList(resultSet);
 

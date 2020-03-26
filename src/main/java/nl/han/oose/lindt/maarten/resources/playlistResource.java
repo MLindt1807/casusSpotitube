@@ -48,7 +48,7 @@ public class playlistResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPlaylist(@QueryParam("token") String token, PlaylistDTO playlist){
         playlistService.addPlaylist(playlist);
-        return Response.status(200).entity(playlistService.getAll()).build();
+        return Response.status(201).entity(playlistService.getAll()).build();
     }
 
 
