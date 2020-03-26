@@ -9,7 +9,6 @@ public class PlaylistDTO {
     private List<TrackDTO> tracks;
 
     public PlaylistDTO(){}
-
     public PlaylistDTO(int id, String name, boolean owner, List<TrackDTO> tracks) {
         this.id = id;
         this.name = name;
@@ -52,6 +51,6 @@ public class PlaylistDTO {
 
     public void addTrack(TrackDTO track) {
         tracks.add(track);
-        System.out.println("toegevoegd");
+
     }
 }

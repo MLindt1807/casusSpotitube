@@ -1,79 +1,16 @@
 package nl.han.oose.lindt.maarten.services;
 
-import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
-import nl.han.oose.lindt.maarten.services.exceptions.MultipleItemsForIDException;
+import nl.han.oose.lindt.maarten.services.dto.TracksDTO;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+public interface TrackService {
 
-public class TrackService {
-
-    List<TrackDTO> tracks = new ArrayList<TrackDTO>();
-    TrackDTO trackTest;
-    public TrackService(){
-        tracks.add(new TrackDTO(3,"Ocean and a rock","Lisa Hannigan", 337,"Sea sew", null,null,null,false));
-        tracks.add(new TrackDTO(4,"So Long, Marianne","Leonard Cohen",546,"Songs of Leonard Cohen", null,null,null,false));
-        tracks.add(new TrackDTO(5,"One","Metallica",423, null, 37,"18-03-2001","Long version",true));
-    }
+    TracksDTO getAllTracks();
 
 
-    public List<TrackDTO> getAll(){
-        return tracks;
-    }
+    TracksDTO getAllTracksNotInCurrentPlaylist(int id);
 
-    //TODO hij get niet alles wat niet in de playlist staat maar wat niet dat id heeft.
-    public List<TrackDTO> getAll(int id){
-                return tracks.stream()
-                .filter(track -> track.getId() != id)
-                .collect(Collectors.toList());
-    }
+    TrackDTO getTrack(int id);
 
-    public List<TrackDTO> getAllExcept(List<Integer> tracksInPlaylist) {
-        List<TrackDTO> tracksToReturn = new ArrayList<TrackDTO>();
-        for(TrackDTO trackToCheck: tracks){
-          for(Integer trackToNotInclude: tracksInPlaylist){
-                if(!tracksToReturn.contains(trackToCheck) && !(trackToCheck.equals(getTrack(trackToNotInclude)))){
-                    tracksToReturn.add(trackToCheck);
-                }
-
-            }
-        }
-        for(TrackDTO track: tracksToReturn){
-            System.out.println(track.getId());
-        }
-        return tracksToReturn;
-
-    }
-
-    public TrackDTO getTrack(int id){
-        TrackDTO returnTrack = null;
-        for(TrackDTO track: tracks){
-            if(track.getId() == id){
-                if(returnTrack == null){
-                    returnTrack = track;
-                } else{
-                    throw new MultipleItemsForIDException();
-                }
-            }
-        }
-
-        return returnTrack;
-    }
-
-    public boolean checkTrack(TrackDTO incomingTrack) {
-        boolean checkOKE = false;
-        for(TrackDTO checkingTrack: tracks){
-            boolean isGelijk = checkingTrack.checkTrack(incomingTrack);
-            if(isGelijk ){
-                if(!checkOKE) {
-                    checkOKE = true;
-                }else{
-                    throw new MultipleItemsForIDException();
-                }
-            }
-        }
-        return checkOKE;
-    }
+    void checkTrack(TrackDTO incomingTrack, int idOfPlaylist);
 }

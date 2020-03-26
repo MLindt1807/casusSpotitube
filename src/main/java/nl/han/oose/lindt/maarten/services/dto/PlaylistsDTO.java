@@ -2,11 +2,11 @@ package nl.han.oose.lindt.maarten.services.dto;
 
 import java.util.List;
 
-public class PlaylistReturnDTO {
+public class PlaylistsDTO {
     private List<PlaylistDTO> playlists;
     private int length;
 
-    public PlaylistReturnDTO(List<PlaylistDTO> playlists){
+    public PlaylistsDTO(List<PlaylistDTO> playlists){
         this.playlists = playlists;
         this.length = 1234;
     }

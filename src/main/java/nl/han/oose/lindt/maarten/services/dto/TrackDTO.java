@@ -105,7 +105,7 @@ public class TrackDTO {
 
     public boolean checkTrack(TrackDTO incomingTrack) {
         if(incomingTrack.id.equals(this.getId())){
-            
+
             if(incomingTrack.equals(this)){
 
                 return true;
