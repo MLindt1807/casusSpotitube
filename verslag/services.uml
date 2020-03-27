@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>nl.han.oose.lindt.maarten.services</OriginalElement>
+  <nodes>
+    <node x="0.0" y="0.0">nl.han.oose.lindt.maarten.services.exceptions</node>
+    <node x="0.0" y="74.0">nl.han.oose.lindt.maarten.services.dto</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="136.5" y="223.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+
