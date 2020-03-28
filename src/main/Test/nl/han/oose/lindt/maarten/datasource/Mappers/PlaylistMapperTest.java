@@ -13,12 +13,12 @@ import static org.mockito.Mockito.*;
 
 class PlaylistMapperTest {
 
-    private PlaylistMapper sut;
+    private PlaylistMapperJDBC sut;
     private PlaylistDAO playlistDAO;
 
     @BeforeEach
     void setUp() {
-        sut = new PlaylistMapper();
+        sut = new PlaylistMapperJDBC();
         playlistDAO = mock(PlaylistDAO.class);
         sut.setPlaylistDAO(playlistDAO);
     }

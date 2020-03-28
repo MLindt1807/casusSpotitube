@@ -1,7 +1,9 @@
 package nl.han.oose.lindt.maarten.services;
 
 import nl.han.oose.lindt.maarten.datasource.Mappers.PlaylistMapper;
+import nl.han.oose.lindt.maarten.datasource.Mappers.PlaylistMapperJDBC;
 import nl.han.oose.lindt.maarten.datasource.Mappers.TrackMapper;
+import nl.han.oose.lindt.maarten.datasource.Mappers.TrackMapperJDBC;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistsDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
@@ -28,8 +30,8 @@ class datasourceBasedPlaylistServiceTest {
     @BeforeEach
     void setUp() {
         sut = new datasourceBasedPlaylistService();
-        playlistMapper = mock(PlaylistMapper.class);
-        trackMapper = mock(TrackMapper.class);
+        playlistMapper = mock(PlaylistMapperJDBC.class);
+        trackMapper = mock(TrackMapperJDBC.class);
 
         sut.setPlaylistMapper(playlistMapper);
         sut.setTrackMapper(trackMapper);

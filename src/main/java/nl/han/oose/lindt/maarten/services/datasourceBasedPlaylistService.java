@@ -10,6 +10,7 @@ import nl.han.oose.lindt.maarten.services.exceptions.NotConsistantDataException;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.List;
 
 @Default

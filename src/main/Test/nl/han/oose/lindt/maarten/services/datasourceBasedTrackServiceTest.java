@@ -1,6 +1,7 @@
 package nl.han.oose.lindt.maarten.services;
 
 import nl.han.oose.lindt.maarten.datasource.Mappers.TrackMapper;
+import nl.han.oose.lindt.maarten.datasource.Mappers.TrackMapperJDBC;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import nl.han.oose.lindt.maarten.services.dto.TracksDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,7 @@ class datasourceBasedTrackServiceTest {
     @BeforeEach
     void setUp() {
         sut = new datasourceBasedTrackService();
-        trackMapper = mock(TrackMapper.class);
+        trackMapper = mock(TrackMapperJDBC.class);
         sut.setTrackMapper(trackMapper);
     }
 

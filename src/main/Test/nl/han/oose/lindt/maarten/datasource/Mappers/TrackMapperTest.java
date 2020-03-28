@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.ResultSet;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,13 +21,13 @@ import static org.mockito.Mockito.*;
 
 class TrackMapperTest {
 
-    private TrackMapper sut;
+    private TrackMapperJDBC sut;
     private TrackDAO trackDAO;
     private TrackVertaler trackVertaler;
 
     @BeforeEach
     void setUp() {
-        sut = new TrackMapper();
+        sut = new TrackMapperJDBC();
         trackDAO = mock(TrackDAO.class);
         sut.setTrackDAO(trackDAO);
         trackVertaler = mock(TrackVertaler.class);
