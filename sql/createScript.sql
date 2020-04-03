@@ -26,3 +26,8 @@ primary key(playlistID, trackID),
 FOREIGN KEY (playlistID) REFERENCES Playlists(id),
 FOREIGN KEY (trackID) REFERENCES Tracks(id)
 );
+
+create table gebruiker(
+gebruikersnaam varchar(30) not null primary key,
+wachtwoord varchar(30) not null
+);
