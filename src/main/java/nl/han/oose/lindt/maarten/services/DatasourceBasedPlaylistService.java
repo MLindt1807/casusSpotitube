@@ -1,7 +1,7 @@
 package nl.han.oose.lindt.maarten.services;
 
-import nl.han.oose.lindt.maarten.datasource.Mappers.PlaylistMapper;
-import nl.han.oose.lindt.maarten.datasource.Mappers.TrackMapper;
+import nl.han.oose.lindt.maarten.datasource.mappers.PlaylistMapper;
+import nl.han.oose.lindt.maarten.datasource.mappers.TrackMapper;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistsDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
@@ -10,11 +10,10 @@ import nl.han.oose.lindt.maarten.services.exceptions.NotConsistantDataException;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.List;
 
 @Default
-public class datasourceBasedPlaylistService implements PlaylistService {
+public class DatasourceBasedPlaylistService implements PlaylistService {
 
     PlaylistMapper playlistMapper;
 
@@ -22,7 +21,7 @@ public class datasourceBasedPlaylistService implements PlaylistService {
 
     TrackMapper trackMapper;
 
-    public datasourceBasedPlaylistService(){
+    public DatasourceBasedPlaylistService(){
 
     }
 

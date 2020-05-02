@@ -1,25 +1,22 @@
 package nl.han.oose.lindt.maarten.resources;
 
 //import nl.han.oose.lindt.maarten.services.UserService;
-import nl.han.oose.lindt.maarten.services.TrackService;
-import nl.han.oose.lindt.maarten.services.datasourceBasedLoginService;
+import nl.han.oose.lindt.maarten.services.DatasourceBasedLoginService;
 import nl.han.oose.lindt.maarten.services.dto.*;
-import nl.han.oose.lindt.maarten.services.PlaylistService;
 
 
 import javax.inject.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.registry.infomodel.User;
 
 
 @Path("/login")
-public class loginResource {
-    private datasourceBasedLoginService  loginService;
+public class LoginResource {
+    private DatasourceBasedLoginService loginService;
 
     @Inject
-    public void setLoginService(datasourceBasedLoginService loginService) {
+    public void setLoginService(DatasourceBasedLoginService loginService) {
         this.loginService = loginService;
     }
 

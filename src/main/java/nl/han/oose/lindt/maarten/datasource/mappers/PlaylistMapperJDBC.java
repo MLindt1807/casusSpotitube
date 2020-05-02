@@ -1,6 +1,7 @@
-package nl.han.oose.lindt.maarten.datasource.Mappers;
+package nl.han.oose.lindt.maarten.datasource.mappers;
 
 import nl.han.oose.lindt.maarten.datasource.dao.PlaylistDAO;
+import nl.han.oose.lindt.maarten.datasource.translators.PlaylistArrayTranslator;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 
@@ -13,9 +14,14 @@ public class PlaylistMapperJDBC implements PlaylistMapper {
 
 
     private PlaylistDAO playlistDAO;
+    private PlaylistArrayTranslator playlistVertaler;
 
     public PlaylistMapperJDBC(){}
 
+    @Inject
+    public void setPlaylistVertaler(PlaylistArrayTranslator playlistVertaler) {
+        this.playlistVertaler = playlistVertaler;
+    }
 
     @Inject
     public void setPlaylistDAO(PlaylistDAO dao){
@@ -26,10 +32,7 @@ public class PlaylistMapperJDBC implements PlaylistMapper {
     @Override
     public List<PlaylistDTO> getAll() {
        var playlists = playlistDAO.getAll();
-
-
-
-        return playlists;
+       return playlistVertaler.resultSetToDTO(playlists);
     }
 
     @Override
@@ -48,29 +51,6 @@ public class PlaylistMapperJDBC implements PlaylistMapper {
             playlistDAO.replacePlaylist(replacementPlaylist.getId(), replacementPlaylist.getName(), replacementPlaylist.isOwner());
 
     }
-//    public List<TrackDTO> getAllTracksForPlaylist(int id) {
-//        ResultSet result = playlistDAO.getAllTracksForPlaylist(id);
-//        List<TrackDTO> tracks = new ArrayList<>();
-//        try {
-//            while(result.next()) {
-//                tracks.add(new TrackDTO(
-//                        result.getInt("id"),
-//                        result.getString("title"),
-//                        result.getString("performer"),
-//                        result.getInt("duration"),
-//                        result.getString("album"),
-//                        result.getInt("playcount"),
-//                        result.getString("publicationDate"),
-//                        result.getString("description"),
-//                        result.getBoolean("offlineAvailable")));
-//            }
-//        } catch (SQLException e) {
-//
-//            throw new FailedResultsetReadingException();
-//        }
-//
-//        return tracks;
-//    }
 
 
     @Override

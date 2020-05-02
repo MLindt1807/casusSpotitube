@@ -1,7 +1,7 @@
-package nl.han.oose.lindt.maarten.datasource.Mappers;
+package nl.han.oose.lindt.maarten.datasource.mappers;
 
 import nl.han.oose.lindt.maarten.datasource.dao.TrackDAO;
-import nl.han.oose.lindt.maarten.datasource.vertaler.TrackVertaler;
+import nl.han.oose.lindt.maarten.datasource.translators.TrackArrayTranslator;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import nl.han.oose.lindt.maarten.services.exceptions.NotConsistantDataException;
@@ -23,14 +23,14 @@ class TrackMapperTest {
 
     private TrackMapperJDBC sut;
     private TrackDAO trackDAO;
-    private TrackVertaler trackVertaler;
+    private TrackArrayTranslator trackVertaler;
 
     @BeforeEach
     void setUp() {
         sut = new TrackMapperJDBC();
         trackDAO = mock(TrackDAO.class);
         sut.setTrackDAO(trackDAO);
-        trackVertaler = mock(TrackVertaler.class);
+        trackVertaler = mock(TrackArrayTranslator.class);
         sut.setTrackVertaler(trackVertaler);
 
     }
@@ -42,7 +42,7 @@ class TrackMapperTest {
         final List<TrackDTO> trackDTOS = Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false));
 
 
-        when(trackVertaler.tracksResultsetToTrackDTOArrayList(any(ResultSet.class))).thenReturn(trackDTOS);
+        when(trackVertaler.resultSetToDTO(any(ResultSet.class))).thenReturn(trackDTOS);
 
         // Run the test
         final List<TrackDTO> result = sut.getAll();
@@ -57,7 +57,7 @@ class TrackMapperTest {
         final List<TrackDTO> trackDTOS = Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false));
 
 
-        when(trackVertaler.tracksResultsetToTrackDTOArrayList(any(ResultSet.class))).thenReturn(trackDTOS);
+        when(trackVertaler.resultSetToDTO(any(ResultSet.class))).thenReturn(trackDTOS);
 
         // Run the test
         final List<TrackDTO> result = sut.getAllTracksNotInCurrentPlaylist(0);
@@ -73,7 +73,7 @@ class TrackMapperTest {
 
         final List<TrackDTO> trackDTOS = new ArrayList<>();
 
-        when(trackVertaler.tracksResultsetToTrackDTOArrayList(any(ResultSet.class))).thenReturn(trackDTOS);
+        when(trackVertaler.resultSetToDTO(any(ResultSet.class))).thenReturn(trackDTOS);
 
 
         // Run the test

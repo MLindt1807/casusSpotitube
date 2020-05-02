@@ -1,12 +1,10 @@
-package nl.han.oose.lindt.maarten.datasource.Mappers;
+package nl.han.oose.lindt.maarten.datasource.mappers;
 
-import nl.han.oose.lindt.maarten.datasource.dao.PlaylistDAO;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import nl.han.oose.lindt.maarten.services.exceptions.MultipleItemsForIDException;
 import nl.han.oose.lindt.maarten.services.exceptions.NotFoundException;
 
-import javax.inject.Inject;
 import java.util.List;
 
 public interface PlaylistMapper {

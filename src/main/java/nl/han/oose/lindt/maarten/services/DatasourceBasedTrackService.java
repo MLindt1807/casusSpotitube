@@ -1,6 +1,6 @@
 package nl.han.oose.lindt.maarten.services;
 
-import nl.han.oose.lindt.maarten.datasource.Mappers.TrackMapper;
+import nl.han.oose.lindt.maarten.datasource.mappers.TrackMapper;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import nl.han.oose.lindt.maarten.services.dto.TracksDTO;
 
@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Default
-public class datasourceBasedTrackService implements TrackService {
+public class DatasourceBasedTrackService implements TrackService {
 
 
     TrackMapper trackMapper;

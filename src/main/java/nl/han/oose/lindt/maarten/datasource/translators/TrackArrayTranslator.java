@@ -1,4 +1,4 @@
-package nl.han.oose.lindt.maarten.datasource.vertaler;
+package nl.han.oose.lindt.maarten.datasource.translators;
 
 import nl.han.oose.lindt.maarten.datasource.dao.FailedResultsetReadingException;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
@@ -8,11 +8,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrackVertaler {
-    public TrackVertaler() {
+public class TrackArrayTranslator {
+    public TrackArrayTranslator() {
     }
 
-    public List<TrackDTO> tracksResultsetToTrackDTOArrayList(ResultSet resultSet) {
+
+    public List<TrackDTO> resultSetToDTO(ResultSet resultSet) {
         List<TrackDTO> tracksToReturn = new ArrayList<TrackDTO>();
         try {
             while (resultSet.next()) {

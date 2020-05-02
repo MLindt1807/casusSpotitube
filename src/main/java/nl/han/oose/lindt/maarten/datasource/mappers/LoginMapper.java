@@ -1,4 +1,4 @@
-package nl.han.oose.lindt.maarten.datasource.Mappers;
+package nl.han.oose.lindt.maarten.datasource.mappers;
 
 import nl.han.oose.lindt.maarten.datasource.dao.LoginDAO;
 import nl.han.oose.lindt.maarten.services.dto.UserDTO;

@@ -17,14 +17,14 @@ import static org.mockito.Mockito.*;
 
 class playlistResourceTest {
 
-    private playlistResource sut;
+    private PlaylistResource sut;
     private TrackService trackService;
     private PlaylistService playlistService;
     private final int randomPlaylistID = 0;
 
     @BeforeEach
     void setUp() {
-        sut = new playlistResource();
+        sut = new PlaylistResource();
         trackService = mock(TrackService.class);
         playlistService = mock(PlaylistService.class);
         sut.setTrackService(trackService);

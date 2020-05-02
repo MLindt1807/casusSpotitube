@@ -1,9 +1,9 @@
-package nl.han.oose.lindt.maarten.datasource.Mappers;
+package nl.han.oose.lindt.maarten.datasource.mappers;
 
 
 
 import nl.han.oose.lindt.maarten.datasource.dao.TrackDAO;
-import nl.han.oose.lindt.maarten.datasource.vertaler.TrackVertaler;
+import nl.han.oose.lindt.maarten.datasource.translators.TrackArrayTranslator;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import nl.han.oose.lindt.maarten.services.exceptions.NotConsistantDataException;
@@ -18,7 +18,7 @@ public class TrackMapperJDBC implements TrackMapper {
 
 
 
-    private TrackVertaler trackVertaler;
+    private TrackArrayTranslator trackVertaler;
     TrackDAO trackDAO;
 
     public TrackMapperJDBC(){
@@ -31,14 +31,14 @@ public class TrackMapperJDBC implements TrackMapper {
     }
 
     @Inject
-    public void setTrackVertaler(TrackVertaler trackVertaler) {
+    public void setTrackVertaler(TrackArrayTranslator trackVertaler) {
         this.trackVertaler = trackVertaler;
     }
 
     @Override
     public List<TrackDTO> getAll() {
         ResultSet tracks = trackDAO.getAll();
-        List<TrackDTO> trackDTOS = trackVertaler.tracksResultsetToTrackDTOArrayList(tracks);
+        List<TrackDTO> trackDTOS = trackVertaler.resultSetToDTO(tracks);
        return trackDTOS;
 
 
@@ -47,14 +47,14 @@ public class TrackMapperJDBC implements TrackMapper {
     @Override
     public List<TrackDTO> getAllTracksNotInCurrentPlaylist(int playlistID) {
         ResultSet tracks = trackDAO.getAllTracksNotInCurrentPlaylist(playlistID);
-        var tracksDTOs = trackVertaler.tracksResultsetToTrackDTOArrayList(tracks);
+        var tracksDTOs = trackVertaler.resultSetToDTO(tracks);
         return tracksDTOs;
     }
 
     @Override
     public void checkTrack(TrackDTO incomingTrack, int playlistID) {
         ResultSet resultSet = trackDAO.getTrack(incomingTrack.getId());
-        List<TrackDTO> tracks = trackVertaler.tracksResultsetToTrackDTOArrayList(resultSet);
+        List<TrackDTO> tracks = trackVertaler.resultSetToDTO(resultSet);
 
         if(!(tracks.size() == 1)){
             throw new NotConsistantDataException();

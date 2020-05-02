@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/playlists/")
-public class playlistResource {
+public class PlaylistResource {
     private PlaylistService playlistService;
 
     @Inject

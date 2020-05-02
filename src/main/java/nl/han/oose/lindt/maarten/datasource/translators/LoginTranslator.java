@@ -1,11 +1,12 @@
-package nl.han.oose.lindt.maarten.datasource.vertaler;
+package nl.han.oose.lindt.maarten.datasource.translators;
 
 import nl.han.oose.lindt.maarten.services.dto.UserVerbindingDTO;
 
-public class loginVertaler {
-    public loginVertaler(){
+public class LoginTranslator {
+    public LoginTranslator(){
 
     }
+
 
 
     public UserVerbindingDTO resultSetToLogin(String gebruiker, String verbindingToken) {

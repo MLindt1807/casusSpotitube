@@ -1,15 +1,15 @@
 package nl.han.oose.lindt.maarten.services;
 
-import nl.han.oose.lindt.maarten.datasource.Mappers.LoginMapper;
+import nl.han.oose.lindt.maarten.datasource.mappers.LoginMapper;
 import nl.han.oose.lindt.maarten.services.dto.UserDTO;
 import nl.han.oose.lindt.maarten.services.dto.UserVerbindingDTO;
 
 import javax.inject.Inject;
 
-public class datasourceBasedLoginService {
+public class DatasourceBasedLoginService {
     LoginMapper loginMapper;
 
-    public datasourceBasedLoginService() {
+    public DatasourceBasedLoginService() {
     }
 
     @Inject

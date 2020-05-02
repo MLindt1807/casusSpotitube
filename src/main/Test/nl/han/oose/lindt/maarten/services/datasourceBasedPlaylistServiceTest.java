@@ -1,9 +1,9 @@
 package nl.han.oose.lindt.maarten.services;
 
-import nl.han.oose.lindt.maarten.datasource.Mappers.PlaylistMapper;
-import nl.han.oose.lindt.maarten.datasource.Mappers.PlaylistMapperJDBC;
-import nl.han.oose.lindt.maarten.datasource.Mappers.TrackMapper;
-import nl.han.oose.lindt.maarten.datasource.Mappers.TrackMapperJDBC;
+import nl.han.oose.lindt.maarten.datasource.mappers.PlaylistMapper;
+import nl.han.oose.lindt.maarten.datasource.mappers.PlaylistMapperJDBC;
+import nl.han.oose.lindt.maarten.datasource.mappers.TrackMapper;
+import nl.han.oose.lindt.maarten.datasource.mappers.TrackMapperJDBC;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistsDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
@@ -23,13 +23,13 @@ import static org.mockito.Mockito.*;
 
 class datasourceBasedPlaylistServiceTest {
 
-    private datasourceBasedPlaylistService sut;
+    private DatasourceBasedPlaylistService sut;
     private PlaylistMapper playlistMapper   ;
     private TrackMapper trackMapper   ;
 
     @BeforeEach
     void setUp() {
-        sut = new datasourceBasedPlaylistService();
+        sut = new DatasourceBasedPlaylistService();
         playlistMapper = mock(PlaylistMapperJDBC.class);
         trackMapper = mock(TrackMapperJDBC.class);
 

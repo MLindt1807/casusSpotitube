@@ -1,7 +1,7 @@
 package nl.han.oose.lindt.maarten.datasource.dao;
 
 import nl.han.oose.lindt.maarten.datasource.DatabaseConnection;
-import nl.han.oose.lindt.maarten.datasource.vertaler.loginVertaler;
+import nl.han.oose.lindt.maarten.datasource.translators.LoginTranslator;
 import nl.han.oose.lindt.maarten.services.dto.UserVerbindingDTO;
 
 import javax.inject.Inject;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class LoginDAO {
-    private loginVertaler loginVertaler;
+    private LoginTranslator LoginTranslator;
     private DatabaseConnection databaseConnection;
     private Connection connection;
 
@@ -19,8 +19,8 @@ public class LoginDAO {
     }
 
     @Inject
-    public void setLoginVertaler(nl.han.oose.lindt.maarten.datasource.vertaler.loginVertaler loginVertaler) {
-        this.loginVertaler = loginVertaler;
+    public void setLoginTranslator(LoginTranslator loginTranslator) {
+        this.LoginTranslator = loginTranslator;
     }
 
     @Inject
@@ -65,7 +65,7 @@ public class LoginDAO {
                     gebruiker = finalResult.getString("gebruikersnaam");
                     token = finalResult.getString("verbindingtoken");
                 }
-                return loginVertaler.resultSetToLogin(gebruiker,token);
+                return LoginTranslator.resultSetToLogin(gebruiker,token);
             }
 
             throw new FailedQueryException();
@@ -76,16 +76,5 @@ public class LoginDAO {
         }
     }
 
-//    public ResultSet getAllTracksNotInCurrentPlaylist(int playlistID) {
-//        PreparedStatement preparedStatement;
-//        try {
-//            System.out.println(playlistID + "not in playlist");
-//            preparedStatement = connection.prepareStatement("SELECT * FROM tracks where id not in(select trackID from tracksInPlaylists where playlistID = ?)");
-//            preparedStatement.setInt(1, playlistID);
-//            return preparedStatement.executeQuery();
-//
-//        } catch (SQLException e) {
-//            throw new FailedQueryException();
-//        }
-//    }
+
 }

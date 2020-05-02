@@ -12,11 +12,11 @@ import static org.mockito.Mockito.*;
 
 class trackResourceTest {
 
-    private trackResource sut;
+    private TrackResource sut;
     private TrackService trackService;
     @BeforeEach
     void setUp() {
-        sut = new trackResource();
+        sut = new TrackResource();
         trackService = mock(TrackService.class);
         sut.setTrackService(trackService);
     }

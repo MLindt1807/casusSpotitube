@@ -29,9 +29,9 @@ public class PlaylistDAO {
        this.connection = databaseConnection.getConnection();
     }
 
-    public List<PlaylistDTO> getAll()  {
+    public ResultSet getAll()  {
 
-        List<PlaylistDTO> playlistsToReturn = new ArrayList<>();
+
         ResultSet playlists = null;
         PreparedStatement preparedStatement = null;
         //opvragen
@@ -42,40 +42,12 @@ public class PlaylistDAO {
         } catch (SQLException e) {
             throw new FailedQueryException();
         }
-
-        //uitlezen
-        try {
-            while(playlists.next()) {
-                playlistsToReturn.add(new PlaylistDTO(
-                        playlists.getInt("id"),
-                        playlists.getString("name"),
-                        playlists.getBoolean("owner"),
-                        new ArrayList<>()));
-            }
-       } catch (SQLException e) {
-               throw new FailedResultsetReadingException();
-       }
-
-        return playlistsToReturn;
+        return playlists;
     }
 
 
 
 
-    public ResultSet getAllTracksForPlaylist(int id) {
-
-
-        PreparedStatement preparedStatement;
-        try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM tracks where id in (select trackID from tracksinplaylists where playlistID = ?)");
-            preparedStatement.setInt(1,id);
-            return preparedStatement.executeQuery();
-
-        } catch (SQLException e) {
-
-            throw new FailedQueryException();
-        }
-    }
 
     public void deletePlaylist(int id) {
 
@@ -138,7 +110,7 @@ public class PlaylistDAO {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+
             throw new FailedQueryException();
         }
     }
@@ -153,7 +125,7 @@ public class PlaylistDAO {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+
             throw new FailedQueryException();
         }
     }

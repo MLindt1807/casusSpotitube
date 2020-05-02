@@ -1,11 +1,8 @@
-package nl.han.oose.lindt.maarten.datasource.Mappers;
+package nl.han.oose.lindt.maarten.datasource.mappers;
 
-import nl.han.oose.lindt.maarten.datasource.dao.TrackDAO;
-import nl.han.oose.lindt.maarten.datasource.vertaler.TrackVertaler;
 import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 
-import javax.inject.Inject;
 import java.util.List;
 
 public interface TrackMapper {
