@@ -2,7 +2,7 @@ package nl.han.oose.lindt.maarten.resources;
 
 import nl.han.oose.lindt.maarten.services.PlaylistService;
 import nl.han.oose.lindt.maarten.services.TrackService;
-import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
+import nl.han.oose.lindt.maarten.services.dto.IncomingPlaylistBooleanDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class playlistResourceTest {
         final Response result = sut.getAllPlaylists("token");
 
         // Verify the results
-        verify(playlistService, times(1)).getAll();
+        verify(playlistService, times(1)).getAll("token");
         assertEquals(result.getStatus(),HTTP_OK);
     }
 
@@ -58,26 +58,26 @@ class playlistResourceTest {
     @Test
     void testAddPlaylist() {
         // Setup
-        final PlaylistDTO playlist = new PlaylistDTO(randomPlaylistID, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
+        var playlist = new IncomingPlaylistBooleanDTO(randomPlaylistID, "name", true, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
 
         // Run the test
         final Response result = sut.addPlaylist("token", playlist);
 
         // Verify the results
-        verify(playlistService, times(1)).addPlaylist(playlist);
+        verify(playlistService, times(1)).addPlaylist("token", playlist);
         assertEquals(result.getStatus(),HTTP_CREATED);
     }
 
     @Test
     void testEditPlaylist() {
         // Setup
-        final PlaylistDTO playlist = new PlaylistDTO(randomPlaylistID, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
+        final IncomingPlaylistBooleanDTO playlist = new IncomingPlaylistBooleanDTO(randomPlaylistID, "name", true, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
 
         // Run the test
         final Response result = sut.editPlaylist("token", randomPlaylistID, playlist);
 
         // Verify the results
-        verify(playlistService, times(1)).replacePlaylist(randomPlaylistID, playlist);
+        verify(playlistService, times(1)).replacePlaylist("token", playlist, randomPlaylistID);
         assertEquals(result.getStatus(),HTTP_OK);
     }
 

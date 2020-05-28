@@ -1,6 +1,6 @@
 package nl.han.oose.lindt.maarten.resources.exceptionmappers;
 
-import nl.han.oose.lindt.maarten.datasource.dao.FailedQueryException;
+import nl.han.oose.lindt.maarten.datasource.databaseExceptions.FailedQueryException;
 
 
 import javax.ws.rs.core.Response;

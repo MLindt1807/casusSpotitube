@@ -1,22 +1,17 @@
 package nl.han.oose.lindt.maarten.services;
 
-import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
-import nl.han.oose.lindt.maarten.services.dto.PlaylistsDTO;
-import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
-import nl.han.oose.lindt.maarten.services.dto.TracksDTO;
+import nl.han.oose.lindt.maarten.services.dto.*;
 
 public interface PlaylistService {
-    PlaylistsDTO getAll();
+    PlaylistsDTO getAll(String token);
 
     void deletePlaylist(int id);
 
-    void addPlaylist(PlaylistDTO playlist);
+    void addPlaylist(String token, IncomingPlaylistBooleanDTO playlist);
 
-    void replacePlaylist(int id, PlaylistDTO replacementPlaylist);
+    void replacePlaylist(String token, IncomingPlaylistBooleanDTO replacementPlaylist, int id);
 
     TracksDTO getAllTracksOfPlaylist(int idOfPlaylist);
-
-
 
     void addTrack(int idOfPlaylist, TrackDTO track);
 

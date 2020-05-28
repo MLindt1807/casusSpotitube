@@ -27,7 +27,6 @@ public class LoginResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(UserDTO user) {
         UserVerbindingDTO login = loginService.login(user);
-//        UserVerbindingDTO login = new UserVerbindingDTO("hoi","token");
         return Response.status(200).entity(login).build();
     }
 

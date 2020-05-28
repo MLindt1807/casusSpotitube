@@ -1,8 +1,7 @@
 package nl.han.oose.lindt.maarten.datasource.translators;
 
-import nl.han.oose.lindt.maarten.datasource.dao.FailedResultsetReadingException;
-import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
-import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
+import nl.han.oose.lindt.maarten.datasource.databaseExceptions.FailedResultsetReadingException;
+import nl.han.oose.lindt.maarten.services.dto.IncomingPlaylistBooleanDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,13 +10,14 @@ import java.util.List;
 
 public class PlaylistArrayTranslator{
 
+    public PlaylistArrayTranslator() {
+    }
 
-
-    public List<PlaylistDTO> resultSetToDTO(ResultSet resultSet) {
-        List<PlaylistDTO> playlistsToReturn = new ArrayList<>();
+    public List<IncomingPlaylistBooleanDTO> resultSetToDTO(ResultSet resultSet) {
+        List<IncomingPlaylistBooleanDTO> playlistsToReturn = new ArrayList<>();
         try {
             while(resultSet.next()) {
-                playlistsToReturn.add(new PlaylistDTO(
+                playlistsToReturn.add(new IncomingPlaylistBooleanDTO(
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getBoolean("owner"),

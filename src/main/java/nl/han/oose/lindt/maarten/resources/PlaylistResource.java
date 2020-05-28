@@ -2,7 +2,7 @@ package nl.han.oose.lindt.maarten.resources;
 
 import nl.han.oose.lindt.maarten.services.PlaylistService;
 import nl.han.oose.lindt.maarten.services.TrackService;
-import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
+import nl.han.oose.lindt.maarten.services.dto.IncomingPlaylistBooleanDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import nl.han.oose.lindt.maarten.services.dto.TracksDTO;
 
@@ -32,7 +32,7 @@ public class PlaylistResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPlaylists(@QueryParam("token") String token){
 
-        return Response.status(200).entity(playlistService.getAll()).build();
+        return Response.status(200).entity(playlistService.getAll(token)).build();
     }
 
     @Path("/{id}")
@@ -40,25 +40,25 @@ public class PlaylistResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deletePlaylist(@QueryParam("token") String token, @PathParam("id") int id){
         playlistService.deletePlaylist(id);
-        return Response.status(200).entity(playlistService.getAll()).build();
+        return Response.status(200).entity(playlistService.getAll(token)).build();
     }
 
     @Path("")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addPlaylist(@QueryParam("token") String token, PlaylistDTO playlist){
-        playlistService.addPlaylist(playlist);
-        return Response.status(201).entity(playlistService.getAll()).build();
+    public Response addPlaylist(@QueryParam("token") String token, IncomingPlaylistBooleanDTO incomingPlaylistBooleanDTO){
+        playlistService.addPlaylist(token , incomingPlaylistBooleanDTO);
+        return Response.status(201).entity(playlistService.getAll(token)).build();
     }
 
 
     @Path("/{id}")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editPlaylist(@QueryParam("token") String token, @PathParam("id") int id, PlaylistDTO playlist){
-        playlistService.replacePlaylist(id,playlist);
-        return Response.status(200).entity(playlistService.getAll()).build();
+    public Response editPlaylist(@QueryParam("token") String token, @PathParam("id") int id, IncomingPlaylistBooleanDTO playlist){
+        playlistService.replacePlaylist(token , playlist, id);
+        return Response.status(200).entity(playlistService.getAll(token)).build();
     }
 
     @Path("/{id}/tracks")

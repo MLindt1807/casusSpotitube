@@ -1,5 +1,5 @@
 package nl.han.oose.lindt.maarten.datasource;
-import nl.han.oose.lindt.maarten.datasource.dao.FailedConnectionException;
+import nl.han.oose.lindt.maarten.datasource.databaseExceptions.FailedConnectionException;
 
 import javax.inject.Inject;
 import java.sql.Connection;

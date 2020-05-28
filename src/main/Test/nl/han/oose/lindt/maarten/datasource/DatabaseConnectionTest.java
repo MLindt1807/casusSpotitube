@@ -1,12 +1,8 @@
 package nl.han.oose.lindt.maarten.datasource;
 
-import nl.han.oose.lindt.maarten.datasource.dao.FailedConnectionException;
-import nl.han.oose.lindt.maarten.services.exceptions.NotConsistantDataException;
+import nl.han.oose.lindt.maarten.datasource.databaseExceptions.FailedConnectionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.sql.Connection;
-import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;

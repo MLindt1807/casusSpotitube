@@ -1,13 +1,9 @@
 package nl.han.oose.lindt.maarten.services;
 
-import nl.han.oose.lindt.maarten.datasource.mappers.PlaylistMapper;
-import nl.han.oose.lindt.maarten.datasource.mappers.PlaylistMapperJDBC;
-import nl.han.oose.lindt.maarten.datasource.mappers.TrackMapper;
-import nl.han.oose.lindt.maarten.datasource.mappers.TrackMapperJDBC;
-import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
-import nl.han.oose.lindt.maarten.services.dto.PlaylistsDTO;
-import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
-import nl.han.oose.lindt.maarten.services.dto.TracksDTO;
+import nl.han.oose.lindt.maarten.datasource.dao.LoginDAO;
+import nl.han.oose.lindt.maarten.datasource.dao.PlaylistDAO;
+import nl.han.oose.lindt.maarten.datasource.dao.TrackDAO;
+import nl.han.oose.lindt.maarten.services.dto.*;
 import nl.han.oose.lindt.maarten.services.exceptions.NotConsistantDataException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,17 +20,26 @@ import static org.mockito.Mockito.*;
 class datasourceBasedPlaylistServiceTest {
 
     private DatasourceBasedPlaylistService sut;
-    private PlaylistMapper playlistMapper   ;
-    private TrackMapper trackMapper   ;
+    private PlaylistDAO playlistDAO;
+    private TrackDAO trackDAO;
+    private LoginDAO loginDAO;
+    private int randomPlaylistID = 0;
+    IncomingPlaylistBooleanDTO booleanPlaylist;
 
     @BeforeEach
     void setUp() {
         sut = new DatasourceBasedPlaylistService();
-        playlistMapper = mock(PlaylistMapperJDBC.class);
-        trackMapper = mock(TrackMapperJDBC.class);
+        playlistDAO = mock(PlaylistDAO.class);
+        trackDAO = mock(TrackDAO.class);
+        loginDAO = mock(LoginDAO.class);
 
-        sut.setPlaylistMapper(playlistMapper);
-        sut.setTrackMapper(trackMapper);
+        sut.setPlaylistDAO(playlistDAO);
+        sut.setTrackDAO(trackDAO);
+        sut.setLoginDAO(loginDAO);
+
+        booleanPlaylist = mock(IncomingPlaylistBooleanDTO.class);
+
+
     }
 
     @Test
@@ -42,16 +47,16 @@ class datasourceBasedPlaylistServiceTest {
         // Setup
 
         // Configure PlaylistMapper.getAll(...).
-        final List<PlaylistDTO> playlistDTOS = Arrays.asList(new PlaylistDTO(0, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false))));
-        when(playlistMapper.getAll()).thenReturn(playlistDTOS);
+
+        final List<IncomingPlaylistBooleanDTO> playlistDTOStringOwners = Arrays.asList( new IncomingPlaylistBooleanDTO(0, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false))));
+        when(playlistDAO.getAll("token")).thenReturn(playlistDTOStringOwners);
 
         // Run the test
-        final PlaylistsDTO result = sut.getAll();
+        final PlaylistsDTO result = sut.getAll("token");
 
         // Verify the results
-//        assertEquals(result.getPlaylists(),playlistDTOS ); // why
-        verify(playlistMapper, times(1)).getAll();
-        verify(trackMapper, times(1)).getTracksForPlaylists(playlistDTOS);
+        verify(playlistDAO, times(1)).getAll("token");
+        verify(trackDAO, times(1)).getTracksForPlaylists(playlistDTOStringOwners);
     }
 
     @Test
@@ -62,41 +67,44 @@ class datasourceBasedPlaylistServiceTest {
         sut.deletePlaylist(0);
 
         // Verify the results
-        verify(sut.playlistMapper, times(1)).deletePlaylist(0);
+        verify(sut.playlistDAO, times(1)).deletePlaylist(0);
     }
 
     @Test
     void testAddPlaylist() {
         // Setup
-        final PlaylistDTO playlist = new PlaylistDTO(0, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
+        var playlist = new IncomingPlaylistBooleanDTO(0, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
 
         // Run the test
-        sut.addPlaylist(playlist);
+        sut.addPlaylist("token", playlist);
 
         // Verify the results
-        verify(sut.playlistMapper).createPlaylist(any(PlaylistDTO.class));
+        verify(sut.playlistDAO).createPlaylist(any(), any());
+    }
+
+
+
+    @Test
+    void replacePlaylists_throwsError(){
+        //arrange
+        when(booleanPlaylist.getId()).thenReturn(1);
+        //act
+
+        //assert
+        assertThrows(NotConsistantDataException.class, ()-> sut.replacePlaylist("token", booleanPlaylist, 2 ));
     }
 
     @Test
-    void testReplacePlaylist() {
-        // Setup
-        final PlaylistDTO replacementPlaylist = new PlaylistDTO(0, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
-
-        // Run the test
-        sut.replacePlaylist(0, replacementPlaylist);
-
-        // Verify the results
-        verify(sut.playlistMapper).replacePlaylist(any(PlaylistDTO.class));
-    }
-
-    @Test
-    void testReplacePlaylistThrowsError() {
-        // Setup
-        final PlaylistDTO replacementPlaylist = new PlaylistDTO(0, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
-
-        // Run the test and verify
-        assertThrows(NotConsistantDataException.class, () -> sut.replacePlaylist(1,replacementPlaylist));
-        verify(playlistMapper,times(0)).replacePlaylist(any(PlaylistDTO.class));
+    void replacePlaylists_callsPlaylistDAO(){
+        //arrange
+        when(booleanPlaylist.getId()).thenReturn(1);
+        when(booleanPlaylist.getName()).thenReturn("name");
+        when(loginDAO.getGebruikerFromToken(any())).thenReturn("naamgebruiker");
+        doNothing().when(playlistDAO).replacePlaylist(1,"name","naamgebruiker");
+        //act
+        sut.replacePlaylist("token", booleanPlaylist,1);
+        //assert
+        verify(playlistDAO,times(1)).replacePlaylist(1,"name","naamgebruiker");
     }
 
     @Test
@@ -105,14 +113,14 @@ class datasourceBasedPlaylistServiceTest {
 
         // Configure TrackMapper.getAllTracksForPlaylist(...).
         final List<TrackDTO> trackDTOS = Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false));
-        when(trackMapper.getAllTracksForPlaylist(0)).thenReturn(trackDTOS);
+        when(trackDAO.getAllTracksForPlaylists(0)).thenReturn(trackDTOS);
 
         // Run the test
         final TracksDTO result = sut.getAllTracksOfPlaylist(0);
 
         // Verify the results
         assertEquals(result.getTracks(), trackDTOS);
-        verify(sut.trackMapper).getAllTracksForPlaylist(0);
+        verify(sut.trackDAO).getAllTracksForPlaylists(0);
 
     }
 
@@ -125,7 +133,7 @@ class datasourceBasedPlaylistServiceTest {
         sut.addTrack(0, track);
 
         // Verify the results
-        verify(sut.playlistMapper).addTrack(0, track);
+        verify(sut.playlistDAO).addTrackToPlaylist(0, track.getId());
     }
 
     @Test
@@ -136,6 +144,6 @@ class datasourceBasedPlaylistServiceTest {
         sut.deleteTrackFromPlaylist(0, 0);
 
         // Verify the results
-        verify(sut.playlistMapper, times(1)).deleteTrackFromPlaylist(0, 0);
+        verify(sut.playlistDAO, times(1)).deleteTrackFromPlaylist(0, 0);
     }
 }

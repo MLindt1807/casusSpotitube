@@ -1,6 +1,6 @@
 package nl.han.oose.lindt.maarten.datasource.translators;
 
-import nl.han.oose.lindt.maarten.datasource.dao.FailedResultsetReadingException;
+import nl.han.oose.lindt.maarten.datasource.databaseExceptions.FailedResultsetReadingException;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 
 import java.sql.ResultSet;

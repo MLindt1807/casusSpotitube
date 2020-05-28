@@ -1,7 +1,9 @@
 package nl.han.oose.lindt.maarten.datasource.dao;
 
 import nl.han.oose.lindt.maarten.datasource.DatabaseConnection;
-import nl.han.oose.lindt.maarten.services.dto.PlaylistDTO;
+import nl.han.oose.lindt.maarten.datasource.databaseExceptions.FailedQueryException;
+import nl.han.oose.lindt.maarten.datasource.translators.TrackArrayTranslator;
+import nl.han.oose.lindt.maarten.services.dto.IncomingPlaylistBooleanDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 
 import javax.inject.Inject;
@@ -10,18 +12,23 @@ import java.sql.PreparedStatement;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrackDAO {
 
     private DatabaseConnection databaseConnection;
     private Connection connection;
+    private TrackArrayTranslator trackArrayTranslator;
+    private PreparedStatement preparedStatement;
 
     public TrackDAO() {
 
     }
 
+    @Inject
+    public void setTrackArrayTranslator(TrackArrayTranslator trackArrayTranslator) {
+        this.trackArrayTranslator = trackArrayTranslator;
+    }
 
     @Inject
     private void setDatabaseConnection(DatabaseConnection databaseConnection) {
@@ -34,38 +41,35 @@ public class TrackDAO {
         this.connection = databaseConnection.getConnection();
     }
 
-    public ResultSet getAll() {
+    public List<TrackDTO> getAll() {
 
-        PreparedStatement preparedStatement;
         try {
 
             preparedStatement = connection.prepareStatement("SELECT * FROM tracks");
-            return preparedStatement.executeQuery();
+            return trackArrayTranslator.resultSetToDTO(preparedStatement.executeQuery());
 
         } catch (SQLException e) {
             throw new FailedQueryException();
         }
     }
 
-    public ResultSet getTrack(Integer id) {
-        PreparedStatement preparedStatement;
+    public List<TrackDTO> getTrack(Integer id) {
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM tracks where id = ?");
             preparedStatement.setInt(1, id);
-            return preparedStatement.executeQuery();
+            return trackArrayTranslator.resultSetToDTO(preparedStatement.executeQuery());
 
         } catch (SQLException e) {
             throw new FailedQueryException();
         }
     }
 
-    public ResultSet getAllTracksNotInCurrentPlaylist(int playlistID) {
-        PreparedStatement preparedStatement;
+    public List<TrackDTO> getAllTracksNotInCurrentPlaylist(int playlistID) {
+
         try {
-            System.out.println(playlistID + "not in playlist");
             preparedStatement = connection.prepareStatement("SELECT * FROM tracks where id not in(select trackID from tracksInPlaylists where playlistID = ?)");
             preparedStatement.setInt(1, playlistID);
-            return preparedStatement.executeQuery();
+            return trackArrayTranslator.resultSetToDTO(preparedStatement.executeQuery());
 
         } catch (SQLException e) {
             throw new FailedQueryException();
@@ -73,10 +77,10 @@ public class TrackDAO {
     }
 
 
-    public List<PlaylistDTO> getTracksForPlaylists(List<PlaylistDTO> playlists) {
+    public List<IncomingPlaylistBooleanDTO> getTracksForPlaylists(List<IncomingPlaylistBooleanDTO> playlists) {
 
 
-        for (PlaylistDTO playlist : playlists) {
+        for (IncomingPlaylistBooleanDTO playlist : playlists) {
 
             List<TrackDTO> tracksToAdd = getAllTracksForPlaylists(playlist.getId());
 
@@ -92,9 +96,7 @@ public class TrackDAO {
 
 
     public List<TrackDTO> getAllTracksForPlaylists(int idOfPlaylist) {
-        PreparedStatement preparedStatement;
         ResultSet resultSet;
-        List<TrackDTO> returnTracks = new ArrayList<>();
 
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM tracks where id in (select trackID from tracksinplaylists where playlistID = ?)");
@@ -109,27 +111,8 @@ public class TrackDAO {
         }
 
 
-        try {
-            if (!(resultSet == null)) {
-                while (resultSet.next()) {
-                    returnTracks.add(new TrackDTO(
-                            resultSet.getInt("id"),
-                            resultSet.getString("title"),
-                            resultSet.getString("performer"),
-                            resultSet.getInt("duration"),
-                            resultSet.getString("album"),
-                            resultSet.getInt("playcount"),
-                            resultSet.getString("publicationDate"),
-                            resultSet.getString("description"),
-                            resultSet.getBoolean("offlineAvailable")));
-                }
 
-            }
-        } catch (SQLException e) {
 
-            throw new FailedResultsetReadingException();
-        }
-
-        return returnTracks;
+        return trackArrayTranslator.resultSetToDTO(resultSet);
     }
 }
