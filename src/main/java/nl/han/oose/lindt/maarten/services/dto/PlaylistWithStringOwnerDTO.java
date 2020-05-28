@@ -2,14 +2,14 @@ package nl.han.oose.lindt.maarten.services.dto;
 
 import java.util.List;
 
-public class PlaylistDTOStringOwner {
+public class PlaylistWithStringOwnerDTO {
     private int id;
     private String name;
     private String owner;
     private List<TrackDTO> tracks;
 
-    public PlaylistDTOStringOwner(){}
-    public PlaylistDTOStringOwner(int id, String name, String owner, List<TrackDTO> tracks) {
+    public PlaylistWithStringOwnerDTO(){}
+    public PlaylistWithStringOwnerDTO(int id, String name, String owner, List<TrackDTO> tracks) {
         this.id = id;
         this.name = name;
         this.owner = owner;

@@ -3,19 +3,19 @@ package nl.han.oose.lindt.maarten.services.dto;
 import java.util.List;
 
 public class PlaylistsDTO {
-    private List<IncomingPlaylistBooleanDTO> playlists;
+    private List<PlaylistWithBooleanOwnerDTO> playlists;
     private int length;
 
-    public PlaylistsDTO(List<IncomingPlaylistBooleanDTO> playlists){
+    public PlaylistsDTO(List<PlaylistWithBooleanOwnerDTO> playlists){
         this.playlists = playlists;
         this.length = 1234;
     }
 
-    public List<IncomingPlaylistBooleanDTO> getPlaylists() {
+    public List<PlaylistWithBooleanOwnerDTO> getPlaylists() {
         return playlists;
     }
 
-    public void setPlaylists(List<IncomingPlaylistBooleanDTO> playlists) {
+    public void setPlaylists(List<PlaylistWithBooleanOwnerDTO> playlists) {
         this.playlists = playlists;
     }
 

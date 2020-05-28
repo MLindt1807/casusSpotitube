@@ -7,9 +7,9 @@ public interface PlaylistService {
 
     void deletePlaylist(int id);
 
-    void addPlaylist(String token, IncomingPlaylistBooleanDTO playlist);
+    void addPlaylist(String token, PlaylistWithBooleanOwnerDTO playlist);
 
-    void replacePlaylist(String token, IncomingPlaylistBooleanDTO replacementPlaylist, int id);
+    void replacePlaylist(String token, PlaylistWithBooleanOwnerDTO replacementPlaylist, int id);
 
     TracksDTO getAllTracksOfPlaylist(int idOfPlaylist);
 

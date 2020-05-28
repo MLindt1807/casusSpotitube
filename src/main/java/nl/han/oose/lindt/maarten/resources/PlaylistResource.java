@@ -2,7 +2,7 @@ package nl.han.oose.lindt.maarten.resources;
 
 import nl.han.oose.lindt.maarten.services.PlaylistService;
 import nl.han.oose.lindt.maarten.services.TrackService;
-import nl.han.oose.lindt.maarten.services.dto.IncomingPlaylistBooleanDTO;
+import nl.han.oose.lindt.maarten.services.dto.PlaylistWithBooleanOwnerDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import nl.han.oose.lindt.maarten.services.dto.TracksDTO;
 
@@ -47,8 +47,8 @@ public class PlaylistResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addPlaylist(@QueryParam("token") String token, IncomingPlaylistBooleanDTO incomingPlaylistBooleanDTO){
-        playlistService.addPlaylist(token , incomingPlaylistBooleanDTO);
+    public Response addPlaylist(@QueryParam("token") String token, PlaylistWithBooleanOwnerDTO playlistWithBooleanOwnerDTO){
+        playlistService.addPlaylist(token , playlistWithBooleanOwnerDTO);
         return Response.status(201).entity(playlistService.getAll(token)).build();
     }
 
@@ -56,7 +56,7 @@ public class PlaylistResource {
     @Path("/{id}")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editPlaylist(@QueryParam("token") String token, @PathParam("id") int id, IncomingPlaylistBooleanDTO playlist){
+    public Response editPlaylist(@QueryParam("token") String token, @PathParam("id") int id, PlaylistWithBooleanOwnerDTO playlist){
         playlistService.replacePlaylist(token , playlist, id);
         return Response.status(200).entity(playlistService.getAll(token)).build();
     }

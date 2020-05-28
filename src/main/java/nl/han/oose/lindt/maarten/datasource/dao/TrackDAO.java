@@ -3,7 +3,7 @@ package nl.han.oose.lindt.maarten.datasource.dao;
 import nl.han.oose.lindt.maarten.datasource.DatabaseConnection;
 import nl.han.oose.lindt.maarten.datasource.databaseExceptions.FailedQueryException;
 import nl.han.oose.lindt.maarten.datasource.translators.TrackArrayTranslator;
-import nl.han.oose.lindt.maarten.services.dto.IncomingPlaylistBooleanDTO;
+import nl.han.oose.lindt.maarten.services.dto.PlaylistWithBooleanOwnerDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 
 import javax.inject.Inject;
@@ -77,10 +77,10 @@ public class TrackDAO {
     }
 
 
-    public List<IncomingPlaylistBooleanDTO> getTracksForPlaylists(List<IncomingPlaylistBooleanDTO> playlists) {
+    public List<PlaylistWithBooleanOwnerDTO> getTracksForPlaylists(List<PlaylistWithBooleanOwnerDTO> playlists) {
 
 
-        for (IncomingPlaylistBooleanDTO playlist : playlists) {
+        for (PlaylistWithBooleanOwnerDTO playlist : playlists) {
 
             List<TrackDTO> tracksToAdd = getAllTracksForPlaylists(playlist.getId());
 

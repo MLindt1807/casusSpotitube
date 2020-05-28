@@ -3,7 +3,7 @@ package nl.han.oose.lindt.maarten.datasource.dao;
 import nl.han.oose.lindt.maarten.datasource.*;
 import nl.han.oose.lindt.maarten.datasource.databaseExceptions.FailedQueryException;
 import nl.han.oose.lindt.maarten.datasource.translators.PlaylistArrayTranslator;
-import nl.han.oose.lindt.maarten.services.dto.IncomingPlaylistBooleanDTO;
+import nl.han.oose.lindt.maarten.services.dto.PlaylistWithBooleanOwnerDTO;
 
 import javax.inject.Inject;
 import java.sql.Connection;
@@ -36,9 +36,7 @@ public class PlaylistDAO {
        this.connection = databaseConnection.getConnection();
     }
 
-    public List<IncomingPlaylistBooleanDTO> getAll(String token)  {
-
-
+    public List<PlaylistWithBooleanOwnerDTO> getAll(String token)  {
         ResultSet playlists = null;
         PreparedStatement preparedStatement = null;
         //opvragen

@@ -39,6 +39,10 @@ public class LoginDAO {
         this.connection = databaseConnection.getConnection();
     }
 
+    public void setConnection(Connection connection){
+        this.connection = connection;
+    }
+
     public UserVerbindingDTO login(String user, String password) {
 
         try {

@@ -12,11 +12,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class PlaylistDTOStringOwnerTest {
+class PlaylistWithStringOwnerDTOTest {
 
     @Mock
     private List<TrackDTO> mockTracks;
-    private PlaylistDTOStringOwner sut;
+    private PlaylistWithStringOwnerDTO sut;
 
     final private String TEST_STRING = "ik ben een random teststring";
     final private int TEST_INT = 1;
@@ -25,7 +25,7 @@ class PlaylistDTOStringOwnerTest {
     @BeforeEach
     void setUp() {
         initMocks(this);
-        sut = new PlaylistDTOStringOwner(0, "name", "false", mockTracks);
+        sut = new PlaylistWithStringOwnerDTO(0, "name", "false", mockTracks);
 
     }
 

@@ -38,8 +38,8 @@ public class DatasourceBasedPlaylistService implements PlaylistService {
 
     @Override
     public PlaylistsDTO getAll(String token) {
-        List<IncomingPlaylistBooleanDTO> playlists = playlistDAO.getAll(token);
-        List<IncomingPlaylistBooleanDTO> playlistsWithTracks = trackDAO.getTracksForPlaylists(playlists);
+        List<PlaylistWithBooleanOwnerDTO> playlists = playlistDAO.getAll(token);
+        List<PlaylistWithBooleanOwnerDTO> playlistsWithTracks = trackDAO.getTracksForPlaylists(playlists);
         PlaylistsDTO returnVar = new PlaylistsDTO( playlistsWithTracks);
         return returnVar;
     }
@@ -50,12 +50,12 @@ public class DatasourceBasedPlaylistService implements PlaylistService {
     }
 
     @Override
-    public void addPlaylist(String token, IncomingPlaylistBooleanDTO playlist) {
+    public void addPlaylist(String token, PlaylistWithBooleanOwnerDTO playlist) {
         playlistDAO.createPlaylist(token, playlist.getName());
     }
 
     @Override
-    public void replacePlaylist(String token, IncomingPlaylistBooleanDTO replacementPlaylist, int id) {
+    public void replacePlaylist(String token, PlaylistWithBooleanOwnerDTO replacementPlaylist, int id) {
         if(id == replacementPlaylist.getId()) {
             playlistDAO.replacePlaylist(replacementPlaylist.getId(), replacementPlaylist.getName(), loginDAO.getGebruikerFromToken(token));
         }else{

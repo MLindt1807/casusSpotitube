@@ -24,7 +24,7 @@ class datasourceBasedPlaylistServiceTest {
     private TrackDAO trackDAO;
     private LoginDAO loginDAO;
     private int randomPlaylistID = 0;
-    IncomingPlaylistBooleanDTO booleanPlaylist;
+    PlaylistWithBooleanOwnerDTO booleanPlaylist;
 
     @BeforeEach
     void setUp() {
@@ -37,7 +37,7 @@ class datasourceBasedPlaylistServiceTest {
         sut.setTrackDAO(trackDAO);
         sut.setLoginDAO(loginDAO);
 
-        booleanPlaylist = mock(IncomingPlaylistBooleanDTO.class);
+        booleanPlaylist = mock(PlaylistWithBooleanOwnerDTO.class);
 
 
     }
@@ -48,7 +48,7 @@ class datasourceBasedPlaylistServiceTest {
 
         // Configure PlaylistMapper.getAll(...).
 
-        final List<IncomingPlaylistBooleanDTO> playlistDTOStringOwners = Arrays.asList( new IncomingPlaylistBooleanDTO(0, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false))));
+        final List<PlaylistWithBooleanOwnerDTO> playlistDTOStringOwners = Arrays.asList( new PlaylistWithBooleanOwnerDTO(0, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false))));
         when(playlistDAO.getAll("token")).thenReturn(playlistDTOStringOwners);
 
         // Run the test
@@ -73,7 +73,7 @@ class datasourceBasedPlaylistServiceTest {
     @Test
     void testAddPlaylist() {
         // Setup
-        var playlist = new IncomingPlaylistBooleanDTO(0, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
+        var playlist = new PlaylistWithBooleanOwnerDTO(0, "name", false, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
 
         // Run the test
         sut.addPlaylist("token", playlist);

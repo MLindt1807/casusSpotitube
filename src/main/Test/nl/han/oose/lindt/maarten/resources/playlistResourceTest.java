@@ -2,7 +2,7 @@ package nl.han.oose.lindt.maarten.resources;
 
 import nl.han.oose.lindt.maarten.services.PlaylistService;
 import nl.han.oose.lindt.maarten.services.TrackService;
-import nl.han.oose.lindt.maarten.services.dto.IncomingPlaylistBooleanDTO;
+import nl.han.oose.lindt.maarten.services.dto.PlaylistWithBooleanOwnerDTO;
 import nl.han.oose.lindt.maarten.services.dto.TrackDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,7 +58,7 @@ class playlistResourceTest {
     @Test
     void testAddPlaylist() {
         // Setup
-        var playlist = new IncomingPlaylistBooleanDTO(randomPlaylistID, "name", true, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
+        var playlist = new PlaylistWithBooleanOwnerDTO(randomPlaylistID, "name", true, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
 
         // Run the test
         final Response result = sut.addPlaylist("token", playlist);
@@ -71,7 +71,7 @@ class playlistResourceTest {
     @Test
     void testEditPlaylist() {
         // Setup
-        final IncomingPlaylistBooleanDTO playlist = new IncomingPlaylistBooleanDTO(randomPlaylistID, "name", true, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
+        final PlaylistWithBooleanOwnerDTO playlist = new PlaylistWithBooleanOwnerDTO(randomPlaylistID, "name", true, Arrays.asList(new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)));
 
         // Run the test
         final Response result = sut.editPlaylist("token", randomPlaylistID, playlist);
